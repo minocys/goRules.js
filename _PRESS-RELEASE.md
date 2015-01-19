@@ -18,21 +18,27 @@ Once the project moves into development, the press release can be used as a touc
  
 ## Heading ##
   > Name the product in a way the reader (i.e. your target customers) will understand.
+  GoTurtleVerse
 
 ## Sub-Heading ##
   > Describe who the market for the product is and what benefit they get. One sentence only underneath the title.
+  Javascript GO rules. 
 
 ## Summary ##
   > Give a summary of the product and the benefit. Assume the reader will not read anything else so make this paragraph good.
+  This is an implementation of Chinese Go rules in vanilla javascript, made to be used in further web implementations of GO.
 
 ## Problem ##
   > Describe the problem your product solves.
+  Currently available implementations of GO rules are either no longer maintained or come prepackaged with visualization code.
 
 ## Solution ##
   > Describe how your product elegantly solves the problem.
+  GoTurtleVerse is just an implementation of the rules, and will plug into any javascript environment and handle the game logic with minimal code-reading on your part.
 
 ## Quote from You ##
   > A quote from a spokesperson in your company.
+  This code right here? ossom possom.
 
 ## How to Get Started ##
   > Describe how easy it is to get started.
