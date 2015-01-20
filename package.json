@@ -1,0 +1,23 @@
+{
+  "name": "2014-12-solo",
+  "version": "1.0.0",
+  "description": "Plain javascript GO rules",
+  "main": "go-board.js",
+  "scripts": {
+    "test": "mocha -R landing tests/test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/minocys/2014-12-solo.git"
+  },
+  "author": "Minocys",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/minocys/2014-12-solo/issues"
+  },
+  "homepage": "https://github.com/minocys/2014-12-solo",
+  "dependencies": {
+    "chai": "^1.10.0",
+    "mocha": "^2.1.0"
+  }
+}
