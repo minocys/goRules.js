@@ -1,4 +1,4 @@
-var Board = require('go-board.js');
+var Board = require('./go-board.js');
 
 var Game = function(){
   this.goBoard = new Board;
@@ -92,5 +92,6 @@ Game.prototype = {
       this.goBoard.set(stone[0], stone[1], this.goBoard.empty);
     }
   }
-
 }
+
+module.exports = Game;

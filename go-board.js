@@ -9,7 +9,6 @@ var GOboard = function(size){
   this.board = this.createBoard(this.size);
   this.currentColor = black;
   this.last_move = null;
-  
 }
 
 GOboard.prototype = {
@@ -20,7 +19,7 @@ GOboard.prototype = {
       board[i] = this.empty;
     }
     return board;
-  }
+  },
 
   //Checks if position is on the board
   isOnBoard: function(x, y){
@@ -28,12 +27,12 @@ GOboard.prototype = {
       return false;
     }
     return true;
-  }
+  },
 
   //checks if spot is empty
   isEmptyPos: function(x, y){
     return this.get(x, y) === this.empty;
-  }
+  },
 
   //Get piece at position
   get: function(x, y){
@@ -41,18 +40,18 @@ GOboard.prototype = {
       return this.board[(x * this.size) + y];
     }
     return null;
-  }
+  },
 
   //Set piece at position
   set: function(x, y, empty){
     new_piece = empty || this.currentColor;
     this.board[(x * this.size) + y] = new_piece;
-  }
+  },
 
   //Get opposite color
   otherColor: function(){
     return (this.currentColor === black) ? white : black;
-  }
+  },
 
   //for switching current piece color after play
   changeColor: function(){
