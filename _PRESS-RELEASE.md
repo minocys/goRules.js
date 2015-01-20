@@ -15,34 +15,31 @@ Oh, and I also like to write press-releases in what I call "Oprah-speak" for mai
 
 Once the project moves into development, the press release can be used as a touchstone; a guiding light. The product team can ask themselves, "Are we building what is in the press release?" If they find they're spending time building things that aren't in the press release (overbuilding), they need to ask themselves why. This keeps product development focused on achieving the customer benefits and not building extraneous stuff that takes longer to build, takes resources to maintain, and doesn't provide real customer benefit (at least not enough to warrant inclusion in the press release).
 
-TODO:
-score checking
-tests
  -->
  
 ## Heading ##
   > Name the product in a way the reader (i.e. your target customers) will understand.
-  GoTurtleVerse
+  goRules.js
 
 ## Sub-Heading ##
   > Describe who the market for the product is and what benefit they get. One sentence only underneath the title.
-  Javascript GO rules. 
+  GO rules as a Node.js module. 
 
 ## Summary ##
   > Give a summary of the product and the benefit. Assume the reader will not read anything else so make this paragraph good.
-  This is an implementation of Chinese Go rules in vanilla javascript, made to be used in further web implementations of GO.
+  This is an implementation of Go rules in vanilla javascript, made into a node module for easy plug and play.
 
 ## Problem ##
   > Describe the problem your product solves.
-  Currently available implementations of GO rules are either no longer maintained or come prepackaged with visualization code.
+  Currently available implementations of GO rules are no longer maintained or come prepackaged with visualization code.
 
 ## Solution ##
   > Describe how your product elegantly solves the problem.
-  GoTurtleVerse is just an implementation of the rules, and will plug into any javascript environment and handle the game logic with minimal code-reading on your part.
+  goRules.js is just an implementation of the rules. My aim is to provide the game logic for your implementation with minimal code-reading, and to provide a clear base for easy customization
 
 ## Quote from You ##
   > A quote from a spokesperson in your company.
-  This code right here? ossom possom.
+  I'm an ossom possom - Bernard.
 
 ## How to Get Started ##
   > Describe how easy it is to get started.
