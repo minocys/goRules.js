@@ -56,9 +56,10 @@ describe('The game logic: ', function(){
   });
 
   it('should be able to pass, play, and end the game', function(){
-    expect(goGame.pass).to.be.a('function');
-    expect(goGame.play).to.be.a('function');
+    goGame.pass();
+    expect(goGame.last_move[0]).to.equal('pass');
     expect(goGame.gameOver).to.be.a('function');
+    expect(goGame.play).to.be.a('function');
   });
 
   describe('when playing a piece:', function(){
@@ -72,15 +73,16 @@ describe('The game logic: ', function(){
       expect(goGame.goBoard.currentColor).to.equal(white);
     });
 
-    it('should check for atari/suicide',function(){
+    it('should not allow atari/suicide',function(){
       var x = 2;
       var y = 2;
       var neighbors = [[x, y+1], [x+1, y], [x, y-1], [x-1, y]];
-      goGame.play(2,2);
       for(var i = 0; i < 4; i++){
         goGame.goBoard.set(neighbors[i][0], neighbors[i][1]);
       }
-      expect(goGame.checkAtari(2,2)).to.equal(true);
+      goGame.goBoard.changeColor();
+      goGame.play(2,2);
+      expect(goGame.goBoard.get(2,2)).to.equal(0);
     });
 
     it('should capture pieces and remove them from board', function(){

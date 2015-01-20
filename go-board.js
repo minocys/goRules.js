@@ -43,7 +43,7 @@ GOboard.prototype = {
 
   //Set piece at position
   set: function(x, y, no_color){
-    new_piece = (no_color) ? empty : this.currentColor;
+    new_piece = (no_color === 'empty') ? empty : this.currentColor;
     this.board[(x * this.size) + y] = new_piece;
   },
 

@@ -2,19 +2,25 @@ var Board = require('./go-board.js');
 
 var Game = function(size){
   this.goBoard = new Board(size);
+  this.last_move = [];
+
+  //storage variables for check functions
+  //they reset before every set of checks
   this.liberty = 0;
   this.captured = { pieces: [], visited: {} };
 }
 
 Game.prototype = {
+  //pass move, ends game if both player pass consecutively
   pass : function(){
-    if(this.goBoard.last_move === 'pass') {
+    if(this.last_move[this.last_move.length-1] === 'pass') {
       this.gameOver();
     }
-    this.goBoard.last_move = 'pass';
+    this.last_move.push('pass');
     this.goBoard.changeColor();
   },
 
+  //TODO - event when game over
   gameOver : function(){
     console.log('GAME OVER');
   },
@@ -29,7 +35,7 @@ Game.prototype = {
     this.goBoard.set(x, y);
     //check for atari/suicide
     if(this.checkAtari(x, y)){
-      this.goBoard.set(x, y, true);
+      this.goBoard.set(x, y, 'empty');
       return 'atari';
     }
     //check for captures
@@ -38,6 +44,7 @@ Game.prototype = {
     return true;
   },
 
+  //check for atari/suicide, returns true if move was atari
   checkAtari: function(x, y){
     this.captured = { pieces: [], visited: {} };
     this.liberty = 0;
@@ -58,6 +65,9 @@ Game.prototype = {
       this.checkConnected(next[0], next[1]);
       if(this.liberty === 0){
         this.capture(this.captured.pieces);
+        this.last_move.push([x, y, this.captured.pieces]);
+      } else{
+        this.last_move.push([x, y, []]);
       }
     }
   },
@@ -92,7 +102,7 @@ Game.prototype = {
   capture: function(captured){
     for(var i = 0; i < captured.length; i++){
       var stone = captured[i];
-      this.goBoard.set(stone[0], stone[1], true);
+      this.goBoard.set(stone[0], stone[1], 'empty');
     }
   }
 }
