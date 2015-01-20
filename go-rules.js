@@ -10,7 +10,7 @@ Game.prototype = {
       this.gameOver();
     }
     this.goBoard.last_move = 'pass';
-    this.goBoard.changePlayer();
+    this.goBoard.changeColor();
   },
 
   gameOver : function(){
@@ -32,7 +32,7 @@ Game.prototype = {
       //check for captures
       this.checkCapture(x, y);
     }
-    this.goBoard.changePlayer();
+    this.goBoard.changeColor();
     return true;
   },
 
