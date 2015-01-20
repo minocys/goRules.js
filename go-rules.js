@@ -1,8 +1,8 @@
 var Board = require('./go-board.js');
 
 var Game = function(size){
-  this.goBoard = new Board(size);
-  this.last_move = [];
+  this.board = new Board(size);
+  this.move_history = [];
 
   //storage variables for check functions
   //they reset before every set of checks
@@ -13,11 +13,11 @@ var Game = function(size){
 Game.prototype = {
   //pass move, ends game if both player pass consecutively
   pass : function(){
-    if(this.last_move[this.last_move.length-1] === 'pass') {
+    if(this.move_history[this.move_history.length-1] === 'pass') {
       this.gameOver();
     }
-    this.last_move.push('pass');
-    this.goBoard.changeColor();
+    this.move_history.push('pass');
+    this.board.changeColor();
   },
 
   //TODO - event when game over
@@ -28,19 +28,19 @@ Game.prototype = {
   //play a move
   //returns true for legal move, false for illegal move
   play: function(x, y){
-    if(!this.goBoard.isOnBoard(x, y) || !this.goBoard.isEmptyPos(x, y)){
+    if(!this.board.isOnBoard(x, y) || !this.board.isEmptyPos(x, y)){
       return false;
     }
     //insert piece
-    this.goBoard.set(x, y);
+    this.board.set(x, y);
     //check for atari/suicide
     if(this.checkAtari(x, y)){
-      this.goBoard.set(x, y, 'empty');
+      this.board.set(x, y, 'empty');
       return 'atari';
     }
     //check for captures
     this.checkCapture(x, y);
-    this.goBoard.changeColor();
+    this.board.changeColor();
     return true;
   },
 
@@ -48,7 +48,7 @@ Game.prototype = {
   checkAtari: function(x, y){
     this.captured = { pieces: [], visited: {} };
     this.liberty = 0;
-    this.checkConnected(x, y, this.goBoard.otherColor());
+    this.checkConnected(x, y, this.board.otherColor());
     if(this.liberty === 0){
       return true;
     }
@@ -65,9 +65,9 @@ Game.prototype = {
       this.checkConnected(next[0], next[1]);
       if(this.liberty === 0){
         this.capture(this.captured.pieces);
-        this.last_move.push([x, y, this.captured.pieces]);
+        this.move_history.push([x, y, this.captured.pieces]);
       } else{
-        this.last_move.push([x, y, []]);
+        this.move_history.push([x, y, []]);
       }
     }
   },
@@ -76,8 +76,8 @@ Game.prototype = {
   //adds all adjacent stones of the color just played to capture
   //increments liberty counter
   checkConnected: function(x, y, otherColor){
-    var color = (otherColor) ? otherColor : this.goBoard.currentColor;
-    var stone = this.goBoard.get(x, y);
+    var color = (otherColor) ? otherColor : this.board.currentColor;
+    var stone = this.board.get(x, y);
     if(this.captured.visited[''+x+','+y] || stone === color){
       return;
     }
@@ -91,7 +91,7 @@ Game.prototype = {
     var neighbors = [[x, y+1], [x+1, y], [x, y-1], [x-1, y]];
     for(var i = 0; i < 4; i++){
       var next = neighbors[i];
-      if(this.goBoard.isOnBoard(next[0], next[1])){
+      if(this.board.isOnBoard(next[0], next[1])){
         this.checkConnected(next[0], next[1], color);
       }
     }
@@ -102,7 +102,7 @@ Game.prototype = {
   capture: function(captured){
     for(var i = 0; i < captured.length; i++){
       var stone = captured[i];
-      this.goBoard.set(stone[0], stone[1], 'empty');
+      this.board.set(stone[0], stone[1], 'empty');
     }
   }
 }

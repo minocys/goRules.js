@@ -57,7 +57,7 @@ describe('The game logic: ', function(){
 
   it('should be able to pass, play, and end the game', function(){
     goGame.pass();
-    expect(goGame.last_move[0]).to.equal('pass');
+    expect(goGame.move_history[0]).to.equal('pass');
     expect(goGame.gameOver).to.be.a('function');
     expect(goGame.play).to.be.a('function');
   });
@@ -68,9 +68,9 @@ describe('The game logic: ', function(){
     });
 
     it('it should play a piece', function(){
-      expect(goGame.goBoard.get(2,2)).to.equal(empty);
+      expect(goGame.board.get(2,2)).to.equal(empty);
       goGame.play(2, 2);
-      expect(goGame.goBoard.currentColor).to.equal(white);
+      expect(goGame.board.currentColor).to.equal(white);
     });
 
     it('should not allow atari/suicide',function(){
@@ -78,11 +78,11 @@ describe('The game logic: ', function(){
       var y = 2;
       var neighbors = [[x, y+1], [x+1, y], [x, y-1], [x-1, y]];
       for(var i = 0; i < 4; i++){
-        goGame.goBoard.set(neighbors[i][0], neighbors[i][1]);
+        goGame.board.set(neighbors[i][0], neighbors[i][1]);
       }
-      goGame.goBoard.changeColor();
+      goGame.board.changeColor();
       goGame.play(2,2);
-      expect(goGame.goBoard.get(2,2)).to.equal(0);
+      expect(goGame.board.get(2,2)).to.equal(0);
     });
 
     it('should capture pieces and remove them from board', function(){
@@ -90,13 +90,13 @@ describe('The game logic: ', function(){
       var y = 2;
       var neighbors = [[x, y+1], [x+1, y], [x, y-1], [x-1, y]];
       goGame.play(2,2);
-      expect(goGame.goBoard.get(2,2)).to.equal(black);
+      expect(goGame.board.get(2,2)).to.equal(black);
       for(var i = 0; i < 3; i++){
-        goGame.goBoard.set(neighbors[i][0], neighbors[i][1]);
+        goGame.board.set(neighbors[i][0], neighbors[i][1]);
       }
-      // console.log(goGame.goBoard.get(x+1, y));
+      // console.log(goGame.board.get(x+1, y));
       console.log(goGame.play(neighbors[3][0], neighbors[3][1]));
-      expect(goGame.goBoard.get(2,2)).to.equal(empty);
+      expect(goGame.board.get(2,2)).to.equal(empty);
     });
 
 

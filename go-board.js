@@ -8,7 +8,6 @@ var GOboard = function(size){
   this.size = size || 19;
   this.board = this.createBoard(this.size);
   this.currentColor = black;
-  this.last_move = null;
 }
 
 GOboard.prototype = {
