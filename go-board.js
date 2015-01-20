@@ -1,22 +1,23 @@
-//pieces
-var empty = 0;
-var black = 1;
-var white = 2;
 
 
 //Board constructor
 var GOboard = function(size){
   this.size = size || 19;
   this.board = this.createBoard(this.size);
-  this.current_move = black;
+  this.current_move = this.black;
   this.last_move = null;
+  
+  //pieces
+  this.empty = 0;
+  this.black = 1;
+  this.white = 2;
 }
 
 //Create array representation of board
 GOboard.prototype.createBoard = function(size){
   var board = []
   for( var i = 0; i < size*size; i++ ){
-    board[i] = empty;
+    board[i] = this.empty;
   }
   return board;
 }
@@ -42,4 +43,4 @@ GOboard.prototype.set = function(x, y, piece){
   this.board[(x * this.size) + y] = piece;
 }
 
-module.exports = new GOboard();
+module.exports = GOboard;
