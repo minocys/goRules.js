@@ -16,7 +16,7 @@ GOboard.prototype = {
   createBoard: function(size){
     var board = []
     for( var i = 0; i < size*size; i++ ){
-      board[i] = this.empty;
+      board[i] = empty;
     }
     return board;
   },
@@ -31,7 +31,7 @@ GOboard.prototype = {
 
   //checks if spot is empty
   isEmptyPos: function(x, y){
-    return this.get(x, y) === this.empty;
+    return this.get(x, y) === empty;
   },
 
   //Get piece at position
@@ -39,12 +39,11 @@ GOboard.prototype = {
     if(this.isOnBoard(x, y)){
       return this.board[(x * this.size) + y];
     }
-    return null;
   },
 
   //Set piece at position
-  set: function(x, y, empty){
-    new_piece = empty || this.currentColor;
+  set: function(x, y, no_color){
+    new_piece = (no_color) ? empty : this.currentColor;
     this.board[(x * this.size) + y] = new_piece;
   },
 

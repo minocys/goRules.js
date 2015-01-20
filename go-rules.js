@@ -1,7 +1,9 @@
 var Board = require('./go-board.js');
 
-var Game = function(){
-  this.goBoard = new Board;
+var Game = function(size){
+  this.goBoard = new Board(size);
+  this.liberty = 0;
+  this.captured = { pieces: [], visited: {} };
 }
 
 Game.prototype = {
@@ -18,6 +20,7 @@ Game.prototype = {
   },
 
   //play a move
+  //returns true for legal move, false for illegal move
   play: function(x, y){
     if(!this.goBoard.isOnBoard(x, y) || !this.goBoard.isEmptyPos(x, y)){
       return false;
@@ -26,21 +29,20 @@ Game.prototype = {
     this.goBoard.set(x, y);
     //check for atari/suicide
     if(this.checkAtari(x, y)){
-      this.goBoard.set(x, y, this.goBoard.empty);
-      return false;
-    } else{
-      //check for captures
-      this.checkCapture(x, y);
+      this.goBoard.set(x, y, true);
+      return 'atari';
     }
+    //check for captures
+    this.checkCapture(x, y);
     this.goBoard.changeColor();
     return true;
   },
 
   checkAtari: function(x, y){
-    var captured = { pieces: [], visited: {} };
-    var liberty = 0;
-    this.checkConnected(x, y, liberty, captured, this.goBoard.otherColor);
-    if(liberty === 0){
+    this.captured = { pieces: [], visited: {} };
+    this.liberty = 0;
+    this.checkConnected(x, y, this.goBoard.otherColor());
+    if(this.liberty === 0){
       return true;
     }
     return false;
@@ -50,12 +52,12 @@ Game.prototype = {
   checkCapture: function(x, y){
     var neighbors = [[x, y+1], [x+1, y], [x, y-1], [x-1, y]];
     for(var i = 0; i < 4; i++){
-      var captured = { pieces: [], visited: {} };
-      var liberty = 0;
+      this.captured = { pieces: [], visited: {} };
+      this.liberty = 0;
       var next = neighbors[i];
-      this.checkConnected(next[0], next[1], liberty, captured);
-      if(liberty === 0){
-        capture(captured.pieces);
+      this.checkConnected(next[0], next[1]);
+      if(this.liberty === 0){
+        this.capture(this.captured.pieces);
       }
     }
   },
@@ -63,24 +65,25 @@ Game.prototype = {
   //floodfill operation, modifies counter and capture
   //adds all adjacent stones of the color just played to capture
   //increments liberty counter
-  checkConnected: function(x, y, liberty, captured, otherColor){
-    var color = otherColor || this.goBoard.currentColor;
+  checkConnected: function(x, y, otherColor){
+    var color = (otherColor) ? otherColor : this.goBoard.currentColor;
     var stone = this.goBoard.get(x, y);
-    if(captured.visited[''+x+y] || stone === color){
+    if(this.captured.visited[''+x+','+y] || stone === color){
       return;
     }
-    if(stone === this.goBoard.empty){
-      liberty++;
+    if(stone === 0){
+      this.liberty++;
       return;
     }
-    captured.pieces.push([x,y]);
-    captured.visited[''+x+y] = true;
-
+    this.captured.pieces.push([x,y]);
+    this.captured.visited[''+x+','+y] = true;
     //iterate over each adjacent piece
     var neighbors = [[x, y+1], [x+1, y], [x, y-1], [x-1, y]];
     for(var i = 0; i < 4; i++){
       var next = neighbors[i];
-      checkConnected(next[0], next[1], liberty, captured, color);
+      if(this.goBoard.isOnBoard(next[0], next[1])){
+        this.checkConnected(next[0], next[1], color);
+      }
     }
     return;
   }, 
@@ -89,7 +92,7 @@ Game.prototype = {
   capture: function(captured){
     for(var i = 0; i < captured.length; i++){
       var stone = captured[i];
-      this.goBoard.set(stone[0], stone[1], this.goBoard.empty);
+      this.goBoard.set(stone[0], stone[1], true);
     }
   }
 }
