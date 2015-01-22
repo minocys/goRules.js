@@ -1,23 +1,23 @@
 //Board constructor
-var SquareBoard = function(size, pieces, enableHistory){
-  this.pieces = pieces;
+var SquareBoard = function(size, pieces, enableHistory, placePieces){
   this.size = size;
-  this.board = this.createBoard(this.size);
-  this.currentColor = black;
-  this.enableHistory = enableHistory;
-  if(this.enableHistory){
+  this.pieces = pieces;
+  this.board = this.createBoard(this.size, placePieces);
+  if(enableHistory){
     //history is a stack
     this.history = [];
+    this.enableHistory = enableHistory;
   }
 }
 
 SquareBoard.prototype = {
   //Create array representation of board
-  createBoard: function(size){
+  createBoard: function(size, placePieces){
     var board = []
     for( var i = 0; i < size*size; i++ ){
       board[i] = this.pieces.empty;
     }
+    placePieces(board);
     return board;
   },
 
@@ -51,7 +51,7 @@ SquareBoard.prototype = {
 
   //Adds last move to history if history enabled.
   record: function(x, y, piece){
-    if(enableHistory){
+    if(this.enableHistory){
       this.history.shift({x:x, y:y, piece:piece, board:this.board});
     }
   },
@@ -60,7 +60,6 @@ SquareBoard.prototype = {
   getHistory: function(index){
     return this.history[index];
   }
-
 
 }
 

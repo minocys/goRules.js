@@ -14,21 +14,21 @@ var GO = function(size){
 
   //storage variables for check functions
   //they reset before every set of checks
-  this.currentColor = pieces.black;
+  this.currentTurn = pieces.black;
   this.liberty = 0;
   this.captured = { pieces: [], visited: {} };
 }
 
 Game.prototype = {
   
-  //Get opposite color
+  //return opposite color
   otherColor: function(){
-    return (this.currentColor === pieces.black) ? pieces.white : pieces.black;
+    return (this.currentTurn === pieces.black) ? pieces.white : pieces.black;
   },
 
   //for switching current piece color after play
   changeColor: function(){
-    this.currentColor = this.otherColor();
+    this.currentTurn = this.otherColor();
   },
 
   //pass move, ends game if both player pass consecutively
@@ -96,7 +96,7 @@ Game.prototype = {
   //adds all adjacent stones of the color just played to capture
   //increments liberty counter
   checkConnected: function(x, y, otherColor){
-    var color = (otherColor) ? otherColor : this.board.currentColor;
+    var color = (otherColor) ? otherColor : this.board.currentTurn;
     var stone = this.board.get(x, y);
     if(this.captured.visited[''+x+','+y] || stone === color){
       return;
